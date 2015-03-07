@@ -32,7 +32,7 @@ angular.module('starter.controllers', [])
             $scope.selectedMarker.show = false;
         }
         var freeSpaceRef = new Firebase('https://dazzling-fire-1486.firebaseio.com/freeSpaces/' + $scope.selectedMarker.$id);
-        freeSpaceRef.once('value', function(data) {
+        freeSpaceRef.once('value', function (data) {
             var openTransaction = {
                 longitude: data.val().longitude,
                 latitude: data.val().latitude,
@@ -65,7 +65,7 @@ angular.module('starter.controllers', [])
         $scope.map.center.latitude = position.coords.latitude;
     });
 
-    $scope.markerClick = function (gmMarker, eventName, model) {
+    $scope.markerClick = function (model) {
         if ($scope.selectedMarker) {
             $scope.selectedMarker.show = false;
         }
