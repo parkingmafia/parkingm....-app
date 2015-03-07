@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function ($scope, $http, $firebaseArray, $firebaseObject, $location) {
+.controller('DashCtrl', function ($scope, $http, $firebaseArray, $firebaseObject, $location, user) {
     var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/freeSpaces");
     $scope.markers = $firebaseArray(ref);
 
@@ -36,7 +36,7 @@ angular.module('starter.controllers', [])
             var openTransaction = {
                 longitude: data.val().longitude,
                 latitude: data.val().latitude,
-                purchaser: 'user1'
+                purchaser: user.name
             };
             var openTransactionsRef = new Firebase('https://dazzling-fire-1486.firebaseio.com/openTransactions');
             openTransactionsRef.push(openTransaction);
@@ -48,8 +48,8 @@ angular.module('starter.controllers', [])
     };
 })
 
-.controller('OfferCtrl', function ($scope, $firebaseObject, $location) {
-    var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/users/user1/vehicle");
+.controller('OfferCtrl', function ($scope, $firebaseArray, $location, user) {
+    var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/users/" + user.name + "/vehicle");
     $scope.markers = $firebaseObject(ref);
 
     $scope.map = {
@@ -90,8 +90,8 @@ angular.module('starter.controllers', [])
     };
 })
 
-.controller('ChatsCtrl', function ($scope, $firebaseObject) {
-    var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/users/user1/coord");
+.controller('ChatsCtrl', function ($scope, $firebaseObject, user) {
+    var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/users/" + user.name + "/coord");
     $scope.marker = $firebaseObject(ref);
     $scope.map = {
       center: {
