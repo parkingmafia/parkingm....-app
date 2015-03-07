@@ -36,7 +36,6 @@ angular.module('starter.controllers', [])
             var openTransaction = {
                 longitude: data.val().longitude,
                 latitude: data.val().latitude,
-                parkId: data.val().parkId,
                 purchaser: 'user1'
             };
             var openTransactionsRef = new Firebase('https://dazzling-fire-1486.firebaseio.com/openTransactions');
