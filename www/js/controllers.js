@@ -1,16 +1,16 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function ($scope, $http) {
-    $scope.map = {
+.controller('DashCtrl', function ($scope, $http, $firebaseArray) {
+        var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/");
+        $scope.marker = $firebaseArray(ref);
+
+        $scope.map = {
         center: {
             latitude: 48,
             longitude: 16
         },
         zoom: 8
     };
-    $http.get('data.json').success(function (data) {
-        $scope.marker = data;
-    });
 })
 
 .controller('ChatsCtrl', function ($scope, Chats) {
