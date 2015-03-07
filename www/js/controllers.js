@@ -34,13 +34,15 @@ angular.module('starter.controllers', [])
         var freeSpaceRef = new Firebase('https://dazzling-fire-1486.firebaseio.com/freeSpaces/' + $scope.selectedMarker.$id);
         freeSpaceRef.once('value', function (data) {
             var openTransaction = {
-                longitude: data.val().longitude,
-                latitude: data.val().latitude,
-                purchaser: user.name
+                timestamp: new Date().getTime()
             };
             var openTransactionsRef = new Firebase('https://dazzling-fire-1486.firebaseio.com/openTransactions');
-            openTransactionsRef.push(openTransaction);
+            pushRef = openTransactionsRef.push(openTransaction);
             freeSpaceRef.remove();
+            var purchaseUserRef = new Firebase('https://dazzling-fire-1486.firebaseio.com/users/user1');
+            purchaseUserRef.update({currentTransaction:pushRef.key()});
+            var sellerUserRef = new Firebase('https://dazzling-fire-1486.firebaseio.com/users/user2');
+            sellerUserRef.update({currentTransaction:pushRef.key()});
         });
 
 
@@ -50,9 +52,10 @@ angular.module('starter.controllers', [])
 
 .controller('OfferCtrl', function ($scope, $firebaseObject, $location, user) {
     var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/users/" + user.name + "/vehicle");
-    $scope.markers = $firebaseObject(ref);
+    $scope.marker = $firebaseObject(ref);
 
     console.log("https://dazzling-fire-1486.firebaseio.com/users/" + user.name + "/vehicle");
+    console.log($scope.marker);
 
 
     $scope.map = {
@@ -93,8 +96,8 @@ angular.module('starter.controllers', [])
     };
 })
 
-.controller('ChatsCtrl', function ($scope, $firebaseObject, user) {
-    var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/users/" + user.name + "/coord");
+.controller('ChatsCtrl', function ($scope, $firebaseObject) {
+    var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/users/user1/coord");
     $scope.marker = $firebaseObject(ref);
     $scope.map = {
         center: {
