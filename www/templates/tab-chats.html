@@ -1,8 +1,12 @@
 <ion-view view-title="Chats">
   <ion-content>
-    <ion-list>
-      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="chat in chats" type="item-text-wrap" href="#/tab/chats/{{chat.id}}">
-      </ion-item>
-    </ion-list>
+      <ui-gmap-google-map center='map.center' zoom='map.zoom'>
+          <ui-gmap-markers
+              models='marker'
+              idKey='"parkId"'
+              coords="'self'"
+              >
+          </ui-gmap-markers>
+      </ui-gmap-google-map>
   </ion-content>
 </ion-view>

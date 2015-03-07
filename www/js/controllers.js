@@ -1,7 +1,7 @@
 angular.module('starter.controllers', [])
 
 .controller('DashCtrl', function ($scope, $http, $firebaseArray) {
-        var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/");
+        var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/freeSpaces");
         $scope.marker = $firebaseArray(ref);
 
         $scope.map = {
@@ -13,11 +13,8 @@ angular.module('starter.controllers', [])
     };
 })
 
-.controller('ChatsCtrl', function ($scope, Chats) {
-    $scope.chats = Chats.all();
-    $scope.remove = function (chat) {
-        Chats.remove(chat);
-    }
+.controller('ChatsCtrl', function ($scope, $firebaseObject) {
+    var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/");
 })
 
 .controller('ChatDetailCtrl', function ($scope, $stateParams, Chats) {
