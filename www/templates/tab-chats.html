@@ -1,12 +1,17 @@
-<ion-view view-title="Chats">
-  <ion-content>
-      <ui-gmap-google-map center='map.center' zoom='map.zoom'>
-          <ui-gmap-markers
-              models='marker'
-              idKey='"parkId"'
-              coords="'self'"
-              >
-          </ui-gmap-markers>
-      </ui-gmap-google-map>
-  </ion-content>
+<ion-view view-title="Dashboard">
+    <ion-content class="padding">
+        <ui-gmap-google-map center='map.center' zoom='map.zoom'>
+            <ui-gmap-marker
+                idKey='"id"'
+                coords="marker"
+                >
+            </ui-gmap-marker>
+            <ui-gmap-marker
+                idKey='"id"'
+                coords="myPosition"
+                >
+            </ui-gmap-marker>
+        </ui-gmap-google-map>
+    </ion-content>
+    {{marker}}
 </ion-view>
