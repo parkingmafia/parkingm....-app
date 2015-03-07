@@ -1,15 +1,24 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function ($scope, $http, $firebaseArray) {
-        var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/freeSpaces");
-        $scope.marker = $firebaseArray(ref);
+.controller('DashCtrl', function ($scope, $http, $firebaseArray, $location) {
+    var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/freeSpaces");
+    $scope.markers = $firebaseArray(ref);
 
-        $scope.map = {
+    $scope.map = {
         center: {
             latitude: 48,
             longitude: 16
         },
         zoom: 8
+    };
+    $scope.markerClick = function (e) {
+        console.log(e);
+        e.show = true;
+    };
+    
+    $scope.buy=function(m){
+        console.log("buy");
+        $location.path('/tab/chats');
     };
 })
 
