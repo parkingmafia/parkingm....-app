@@ -94,11 +94,11 @@ angular.module('starter.controllers', [])
     var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/users/user1/coord");
     $scope.marker = $firebaseObject(ref);
     $scope.map = {
-        center: {
-            latitude: 48,
-            longitude: 16
-        },
-        zoom: 8
+      center: {
+          latitude: 48.199023,
+          longitude: 16.368714
+      },
+      zoom: 12
     };
     $scope.myPosition = {};
     navigator.geolocation.getCurrentPosition(function (position) {
