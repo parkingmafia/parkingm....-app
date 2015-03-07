@@ -48,9 +48,12 @@ angular.module('starter.controllers', [])
     };
 })
 
-.controller('OfferCtrl', function ($scope, $firebaseArray, $location, user) {
+.controller('OfferCtrl', function ($scope, $firebaseObject, $location, user) {
     var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/users/" + user.name + "/vehicle");
     $scope.markers = $firebaseObject(ref);
+
+    console.log("https://dazzling-fire-1486.firebaseio.com/users/" + user.name + "/vehicle");
+
 
     $scope.map = {
         center: {
@@ -94,11 +97,11 @@ angular.module('starter.controllers', [])
     var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/users/" + user.name + "/coord");
     $scope.marker = $firebaseObject(ref);
     $scope.map = {
-      center: {
-          latitude: 48.199023,
-          longitude: 16.368714
-      },
-      zoom: 12
+        center: {
+            latitude: 48.199023,
+            longitude: 16.368714
+        },
+        zoom: 12
     };
     $scope.myPosition = {};
     navigator.geolocation.getCurrentPosition(function (position) {
