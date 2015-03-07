@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function ($scope, $http, $firebaseArray, $firebaseObject, $location) {
+.controller('DashCtrl', function ($scope, $http, $firebaseArray, $firebaseObject, $location, user) {
     var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/freeSpaces");
     $scope.markers = $firebaseArray(ref);
 
@@ -36,7 +36,7 @@ angular.module('starter.controllers', [])
             var openTransaction = {
                 longitude: data.val().longitude,
                 latitude: data.val().latitude,
-                purchaser: 'user1'
+                purchaser: user.name
             };
             var openTransactionsRef = new Firebase('https://dazzling-fire-1486.firebaseio.com/openTransactions');
             openTransactionsRef.push(openTransaction);
@@ -48,9 +48,12 @@ angular.module('starter.controllers', [])
     };
 })
 
-.controller('OfferCtrl', function ($scope, $firebaseArray, $location) {
-    var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/users/user1/vehicle");
-    $scope.markers = $firebaseArray(ref);
+.controller('OfferCtrl', function ($scope, $firebaseObject, $location, user) {
+    var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/users/" + user.name + "/vehicle");
+    $scope.markers = $firebaseObject(ref);
+
+    console.log("https://dazzling-fire-1486.firebaseio.com/users/" + user.name + "/vehicle");
+
 
     $scope.map = {
         center: {
@@ -90,15 +93,15 @@ angular.module('starter.controllers', [])
     };
 })
 
-.controller('ChatsCtrl', function ($scope, $firebaseObject) {
-    var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/users/user1/coord");
+.controller('ChatsCtrl', function ($scope, $firebaseObject, user) {
+    var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/users/" + user.name + "/coord");
     $scope.marker = $firebaseObject(ref);
     $scope.map = {
         center: {
-            latitude: 48,
-            longitude: 16
+            latitude: 48.199023,
+            longitude: 16.368714
         },
-        zoom: 8
+        zoom: 12
     };
     $scope.myPosition = {};
     navigator.geolocation.getCurrentPosition(function (position) {
