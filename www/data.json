@@ -1,0 +1,25 @@
+[{
+    "latitude": 48.198966,
+    "longitude": 16.367980,
+    "parkId": 1
+}, {
+    "latitude": 48.198594,
+    "longitude": 16.367845,
+    "parkId": 2
+}, {
+    "latitude": 48.198015,
+    "longitude": 16.368832,
+    "parkId": 3
+}, {
+    "latitude": 48.199045,
+    "longitude": 16.368542,
+    "parkId": 4
+}, {
+    "latitude": 48.198108,
+    "longitude": 16.370580,
+    "parkId": 5
+}, {
+    "latitude": 48.199023,
+    "longitude": 16.368714,
+    "parkId": 6
+}]
