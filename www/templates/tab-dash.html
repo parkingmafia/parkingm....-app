@@ -1,12 +1,12 @@
 <ion-view view-title="ParkIt">
     <ion-content class="padding">
         <ui-gmap-google-map center="map.center" zoom="map.zoom">
-            <ui-gmap-marker ng-repeat="m in markers" coords='m' click='markerClick(m)' idkey='m.parkId'>
+            <ui-gmap-marker ng-repeat="m in markers" coords='m' click='markerClick(m)' idkey='m.$id'>
                 <ui-gmap-window show="m.show" closeClick="m.show=false" ng-cloak>
                     <div>
                         <div>Price: {{m.price|currency}}
                         </div>
-                        <button class="button" ng-click="$parent.buy(m)">
+                        <button class="button button-small button-positive icon-left ion-ios-cart-outline" ng-click="$parent.buy(m)">
                             Buy
                         </button>
                     </div>
