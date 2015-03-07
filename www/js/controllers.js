@@ -38,7 +38,7 @@ angular.module('starter.controllers', [])
             $scope.myPosition.longitude = position.coords.longitude;
             $scope.myPosition.latitude = position.coords.latitude;
         });
-        $scope.myPosition.options = {icon:'http://maps.gstatic.com/mapfiles/markers2/arrow.png'};
+        $scope.myPosition.options = {icon:'https://maps.google.com/mapfiles/kml/shapes/parking_lot_maps.png'};
     })
 
 .controller('ChatDetailCtrl', function ($scope, $stateParams, Chats) {
