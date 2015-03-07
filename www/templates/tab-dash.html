@@ -1,5 +1,5 @@
 <ion-view view-title="ParkIt">
-    <ion-content class="padding">
+    <ion-content class="padding" data-tap-disabled="true">
         <ui-gmap-google-map center="map.center" zoom="map.zoom">
             <ui-gmap-marker ng-repeat="m in markers" coords='m' click='markerClick(m)' idkey='m.$id'>
                 <ui-gmap-window show="m.show" closeClick="m.show=false" ng-cloak>
