@@ -65,12 +65,12 @@ angular.module('starter.controllers', [])
         $scope.map.center.latitude = position.coords.latitude;
     });
 
-    $scope.markerClick = function (e) {
+    $scope.markerClick = function (gmMarker, eventName, model) {
         if ($scope.selectedMarker) {
             $scope.selectedMarker.show = false;
         }
-        e.show = true;
-        $scope.selectedMarker = e;
+        model.show = true;
+        $scope.selectedMarker = model;
     };
 
     $scope.offer = function () {
