@@ -17,6 +17,10 @@ angular.module('starter.controllers', [])
     {
         var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/users/user1/coord");
         $scope.marker = $firebaseObject(ref);
+        ref.on('value', function(dataSnapshot) {
+            $scope.marker.longitude = dataSnapshot.longitude;
+            $scope.marker.latitude = dataSnapshot.latitude;
+        });
         $scope.map = {
             center: {
                 latitude: 48,
