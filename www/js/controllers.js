@@ -26,10 +26,6 @@ angular.module('starter.controllers', [])
     {
         var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/users/user1/coord");
         $scope.marker = $firebaseObject(ref);
-        ref.on('value', function(dataSnapshot) {
-            $scope.marker.longitude = dataSnapshot.longitude;
-            $scope.marker.latitude = dataSnapshot.latitude;
-        });
         $scope.map = {
             center: {
                 latitude: 48,
@@ -42,6 +38,7 @@ angular.module('starter.controllers', [])
             $scope.myPosition.longitude = position.coords.longitude;
             $scope.myPosition.latitude = position.coords.latitude;
         });
+        $scope.myPosition.options = {icon:'http://maps.gstatic.com/mapfiles/markers2/arrow.png'};
     })
 
 .controller('ChatDetailCtrl', function ($scope, $stateParams, Chats) {
