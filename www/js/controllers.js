@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function ($scope, $http, $firebaseArray, $location) {
+.controller('DashCtrl', function ($scope, $http, $firebaseArray, $firebaseObject, $location) {
     var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/freeSpaces");
     $scope.markers = $firebaseArray(ref);
 
@@ -31,6 +31,19 @@ angular.module('starter.controllers', [])
         if ($scope.selectedMarker) {
             $scope.selectedMarker.show = false;
         }
+        var freeSpaceRef = new Firebase('https://dazzling-fire-1486.firebaseio.com/freeSpaces/' + $scope.selectedMarker.$id);
+        freeSpaceRef.once('value', function(data) {
+            var openTransaction = {
+                longitude: data.val().longitude,
+                latitude: data.val().latitude,
+                parkId: data.val().parkId,
+                purchaser: 'user1'
+            };
+            var openTransactionsRef = new Firebase('https://dazzling-fire-1486.firebaseio.com/openTransactions');
+            openTransactionsRef.push(openTransaction);
+            freeSpaceRef.remove();
+        });
+
 
         $location.path('/tab/chats');
     };
