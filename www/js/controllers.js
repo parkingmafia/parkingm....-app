@@ -48,9 +48,9 @@ angular.module('starter.controllers', [])
     };
 })
 
-.controller('OfferCtrl', function ($scope, $firebaseArray, $location) {
+.controller('OfferCtrl', function ($scope, $firebaseObject, $location) {
     var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/users/user1/vehicle");
-    $scope.markers = $firebaseArray(ref);
+    $scope.markers = $firebaseObject(ref);
 
     $scope.map = {
         center: {
