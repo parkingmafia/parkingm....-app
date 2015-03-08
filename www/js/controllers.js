@@ -34,26 +34,29 @@ angular.module('starter.controllers', [])
         var freeSpaceRef = new Firebase('https://dazzling-fire-1486.firebaseio.com/freeSpaces/' + $scope.selectedMarker.$id);
         freeSpaceRef.once('value', function (data) {
             var openTransaction = {
-                timestamp: new Date().getTime()
+                timestamp: new Date().getTime(),
+                purchaser: user.name,
+                seller: data.val().user
             };
+
             var openTransactionsRef = new Firebase('https://dazzling-fire-1486.firebaseio.com/openTransactions');
             pushRef = openTransactionsRef.push(openTransaction);
             freeSpaceRef.remove();
-            var purchaseUserRef = new Firebase('https://dazzling-fire-1486.firebaseio.com/users/user1');
+            var purchaseUserRef = new Firebase('https://dazzling-fire-1486.firebaseio.com/users/' + user.name);
             purchaseUserRef.update({
                 currentTransaction: pushRef.key()
             });
-            var sellerUserRef = new Firebase('https://dazzling-fire-1486.firebaseio.com/users/user2');
+            var sellerUserRef = new Firebase('https://dazzling-fire-1486.firebaseio.com/users/' + data.val().user);
             sellerUserRef.update({
                 currentTransaction: pushRef.key()
             });
         });
+        };
 
         user.offer = false;
         user.buy = true;
 
         $location.path('/tab/trac/buy');
-    };
 })
 
 .controller('OfferCtrl', function ($scope, $firebaseObject, $location, user) {
