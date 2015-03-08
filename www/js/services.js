@@ -40,6 +40,7 @@ angular.module('starter.services', [])
                         $interval(function () {
                             user.vehicle.latitude = positions[positionIndex].latitude;
                             user.vehicle.longitude = positions[positionIndex].longitude;
+                            ref.update({vehicle:{longitude:user.vehicle.longitude, latitude:user.vehicle.latitude}});
 
                             positionIndex += 1;
                         }, 200, positions.length);

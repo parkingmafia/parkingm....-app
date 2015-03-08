@@ -109,13 +109,31 @@ angular.module('starter.controllers', [])
 })
 
 .controller('OfferTracCtrl', function ($scope, $firebaseObject, user) {
-    var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/users/" + user.name)
+    var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/users/" + user.name);
+    ref.on('value', function (userData) {
+        if(userData.val().currentTransaction !== undefined)
+        {
+            var transactionRef = new Firebase("https://dazzling-fire-1486.firebaseio.com/openTransactions/" + userData.val().currentTransaction);
+            var transaction = $firebaseObject(transactionRef);
+
+            transaction.$loaded(function (t) {
+                var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/users/" + t.seller);
+                var seller = $firebaseObject(ref);
+
+                seller.$loaded(function (seller) {
+                    $scope.myPosition.longitude = seller.vehicle.longitude;
+                    $scope.myPosition.latitude = seller.vehicle.latitude;
+                });
+            });
+        }
+    });
     var userRef = $firebaseObject(ref);
     $scope.marker = userRef.vehicle;
-    var transactionRef = new Firebase("https://dazzling-fire-1486.firebaseio.com/openTransactions/" + userRef.openTransaction);
-    var transaction = $firebaseObject(transactionRef);
-    var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/users/" + transaction.sellerId);
 
+    userRef.$loaded(function (user) {
+        $scope.marker = user.vehicle;
+        $scope.marker.options = {icon: 'https://maps.google.com/mapfiles/kml/shapes/parking_lot_maps.png'};
+    });
 
     $scope.map = {
         center: {
@@ -125,12 +143,8 @@ angular.module('starter.controllers', [])
         zoom: 12
     };
     $scope.myPosition = {};
-    navigator.geolocation.getCurrentPosition(function (position) {
-        $scope.myPosition.longitude = position.coords.longitude;
-        $scope.myPosition.latitude = position.coords.latitude;
-    });
     $scope.myPosition.options = {
-        icon: 'https://maps.google.com/mapfiles/kml/shapes/parking_lot_maps.png'
+        icon:'http://google-maps-icons.googlecode.com/files/car.png'
     };
 })
 
@@ -141,6 +155,7 @@ angular.module('starter.controllers', [])
 
     userRef.$loaded(function (user) {
         $scope.marker = user.vehicle;
+        $scope.marker.options = {icon:'http://google-maps-icons.googlecode.com/files/car.png'};
 
         var transactionRef = new Firebase("https://dazzling-fire-1486.firebaseio.com/openTransactions/" + userRef.currentTransaction);
         var transaction = $firebaseObject(transactionRef);
@@ -151,6 +166,8 @@ angular.module('starter.controllers', [])
 
             seller.$loaded(function (seller) {
                 car.drive(ref, user, seller.vehicle);
+                $scope.myPosition.longitude = seller.vehicle.longitude;
+                $scope.myPosition.latitude = seller.vehicle.latitude;
             });
         });
     });
@@ -163,10 +180,6 @@ angular.module('starter.controllers', [])
         zoom: 12
     };
     $scope.myPosition = {};
-    navigator.geolocation.getCurrentPosition(function (position) {
-        $scope.myPosition.longitude = position.coords.longitude;
-        $scope.myPosition.latitude = position.coords.latitude;
-    });
     $scope.myPosition.options = {
         icon: 'https://maps.google.com/mapfiles/kml/shapes/parking_lot_maps.png'
     };
