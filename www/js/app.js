@@ -32,8 +32,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
             url: "/tab",
             abstract: true,
             templateUrl: "templates/tabs.html"
-        })        
-    .state('tab.dash', {
+        })
+        .state('tab.dash', {
             url: '/dash',
             views: {
                 'tab-dash': {
@@ -41,12 +41,20 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                     controller: 'DashCtrl'
                 }
             }
-        }).state('tab.chats', {
-            url: '/chats',
+        }).state('tab.trac-offer', {
+            url: '/trac/offer',
             views: {
-                'tab-chats': {
+                'tab-trac-offer': {
                     templateUrl: 'templates/tab-chats.html',
-                    controller: 'ChatsCtrl'
+                    controller: 'OfferTracCtrl'
+                }
+            }
+        }).state('tab.trac-buy', {
+            url: '/trac/buy',
+            views: {
+                'tab-trac-buy': {
+                    templateUrl: 'templates/tab-chats.html',
+                    controller: 'BuyTracCtrl'
                 }
             }
         })
@@ -59,15 +67,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 }
             }
         })
-    .state('tab.offer', {
-        url: '/offer',
-        views: {
-            'tab-offer': {
-                templateUrl: 'templates/tab-offer.html',
-                controller: 'OfferCtrl'
+        .state('tab.offer', {
+            url: '/offer',
+            views: {
+                'tab-offer': {
+                    templateUrl: 'templates/tab-offer.html',
+                    controller: 'OfferCtrl'
+                }
             }
-        }
-    });
+        });
 
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/tab/dash');

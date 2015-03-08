@@ -34,25 +34,30 @@ angular.module('starter.controllers', [])
         var freeSpaceRef = new Firebase('https://dazzling-fire-1486.firebaseio.com/freeSpaces/' + $scope.selectedMarker.$id);
         freeSpaceRef.once('value', function (data) {
             var openTransaction = {
-                longitude: data.val().longitude,
-                latitude: data.val().latitude,
-                purchaser: user.name
+                timestamp: new Date().getTime()
             };
             var openTransactionsRef = new Firebase('https://dazzling-fire-1486.firebaseio.com/openTransactions');
-            openTransactionsRef.push(openTransaction);
+            pushRef = openTransactionsRef.push(openTransaction);
             freeSpaceRef.remove();
+            var purchaseUserRef = new Firebase('https://dazzling-fire-1486.firebaseio.com/users/user1');
+            purchaseUserRef.update({currentTransaction:pushRef.key()});
+            var sellerUserRef = new Firebase('https://dazzling-fire-1486.firebaseio.com/users/user2');
+            sellerUserRef.update({currentTransaction:pushRef.key()});
         });
 
-
-        $location.path('/tab/chats');
+        user.offer = false;
+        user.buy = true;
+        
+        $location.path('/tab/trac/buy');
     };
 })
 
 .controller('OfferCtrl', function ($scope, $firebaseObject, $location, user) {
     var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/users/" + user.name + "/vehicle");
-    $scope.markers = $firebaseObject(ref);
+    $scope.marker = $firebaseObject(ref);
 
     console.log("https://dazzling-fire-1486.firebaseio.com/users/" + user.name + "/vehicle");
+    console.log($scope.marker);
 
 
     $scope.map = {
@@ -88,14 +93,24 @@ angular.module('starter.controllers', [])
         if ($scope.selectedMarker) {
             $scope.selectedMarker.show = false;
         }
+        
+        user.offer = true;
+        user.buy = false;
 
-        $location.path('/tab/chats');
+        $location.path('/tab/trac/offer');
     };
 })
 
-.controller('ChatsCtrl', function ($scope, $firebaseObject, user) {
-    var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/users/" + user.name + "/coord");
-    $scope.marker = $firebaseObject(ref);
+.controller('OfferTracCtrl', function ($scope, $firebaseObject, user) {
+    alert('Offer');
+    var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/users/" + user.name)
+    var userRef = $firebaseObject(ref);
+    $scope.marker = userRef.vehicle;
+    var transactionRef = new Firebase("https://dazzling-fire-1486.firebaseio.com/openTransactions/" + userRef.openTransaction);
+    var transaction = $firebaseObject(transactionRef);
+    var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/users/" + transaction.sellerId);
+    
+    
     $scope.map = {
         center: {
             latitude: 48.199023,
@@ -113,12 +128,31 @@ angular.module('starter.controllers', [])
     };
 })
 
-.controller('ChatDetailCtrl', function ($scope, $stateParams, Chats) {
-    $scope.chat = Chats.get($stateParams.chatId);
+.controller('BuyTracCtrl', function ($scope, $firebaseObject, user) {
+    alert('Buy');
+    var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/users/" + user.name);
+    var userRef = $firebaseObject(ref);
+    $scope.marker = userRef.vehicle;
+    var transactionRef = new Firebase("https://dazzling-fire-1486.firebaseio.com/openTransactions/" + userRef.openTransaction);
+    var transaction = $firebaseObject(transactionRef);
+    var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/users/" + transaction.buyerId);
+        $scope.map = {
+        center: {
+            latitude: 48.199023,
+            longitude: 16.368714
+        },
+        zoom: 12
+    };
+    $scope.myPosition = {};
+    navigator.geolocation.getCurrentPosition(function (position) {
+        $scope.myPosition.longitude = position.coords.longitude;
+        $scope.myPosition.latitude = position.coords.latitude;
+    });
+    $scope.myPosition.options = {
+        icon: 'https://maps.google.com/mapfiles/kml/shapes/parking_lot_maps.png'
+    };
 })
 
-.controller('AccountCtrl', function ($scope) {
-    $scope.settings = {
-        enableFriends: true
-    };
+.controller('TabsCtrl', function ($scope, user) {
+    $scope.user = user;
 });
