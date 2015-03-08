@@ -19,20 +19,21 @@ angular.module('starter.services', [])
                 directionsService.route(request, function (response, status) {
                     if (status == google.maps.DirectionsStatus.OK) {
                         var steps = response.routes[0].legs[0].steps,
-                            index,
-                            positions = [], positionIndex = 0;
+                            index, pathIndex,
+                            positions = [],
+                            positionIndex = 0;
 
                         for (index in steps) {
                             var step = steps[index];
 
-                            positions.push({
-                                longitude: step.start_location.lng(),
-                                latitude: step.start_location.lat()
-                            });
-                            positions.push({
-                                longitude: step.end_location.lng(),
-                                latitude: step.end_location.lat()
-                            });
+                            for (pathIndex in step.path) {
+                                var path = step.path[pathIndex];
+
+                                positions.push({
+                                    longitude: path.lng(),
+                                    latitude: path.lat()
+                                });
+                            }
                         }
 
                         $interval(function () {
@@ -40,7 +41,7 @@ angular.module('starter.services', [])
                             user.vehicle.longitude = positions[positionIndex].longitude;
 
                             positionIndex += 1;
-                        }, 2000, positions.length);
+                        }, 500, positions.length);
                     }
                 });
 
