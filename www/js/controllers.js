@@ -97,7 +97,8 @@ angular.module('starter.controllers', [])
         ref.push({
             longitude: $scope.selectedMarker.longitude,
             latitude: $scope.selectedMarker.latitude,
-            price: $scope.selectedMarker.price || 1.5
+            price: $scope.selectedMarker.price || 1.5,
+            user: user.name
         });
 
         if ($scope.selectedMarker) {
