@@ -40,21 +40,31 @@ angular.module('starter.controllers', [])
             pushRef = openTransactionsRef.push(openTransaction);
             freeSpaceRef.remove();
             var purchaseUserRef = new Firebase('https://dazzling-fire-1486.firebaseio.com/users/user1');
-            purchaseUserRef.update({currentTransaction:pushRef.key()});
+            purchaseUserRef.update({
+                currentTransaction: pushRef.key()
+            });
             var sellerUserRef = new Firebase('https://dazzling-fire-1486.firebaseio.com/users/user2');
-            sellerUserRef.update({currentTransaction:pushRef.key()});
+            sellerUserRef.update({
+                currentTransaction: pushRef.key()
+            });
         });
 
         user.offer = false;
         user.buy = true;
-        
+
         $location.path('/tab/trac/buy');
     };
 })
 
 .controller('OfferCtrl', function ($scope, $firebaseObject, $location, user) {
     var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/users/" + user.name + "/vehicle");
-    $scope.marker = $firebaseObject(ref);
+    var vehicle = $firebaseObject(ref);
+
+    vehicle.$loaded(function (v) {
+        v.show = false;
+        $scope.marker = v;
+    });
+
 
     console.log("https://dazzling-fire-1486.firebaseio.com/users/" + user.name + "/vehicle");
     console.log($scope.marker);
@@ -93,7 +103,7 @@ angular.module('starter.controllers', [])
         if ($scope.selectedMarker) {
             $scope.selectedMarker.show = false;
         }
-        
+
         user.offer = true;
         user.buy = false;
 
@@ -109,8 +119,8 @@ angular.module('starter.controllers', [])
     var transactionRef = new Firebase("https://dazzling-fire-1486.firebaseio.com/openTransactions/" + userRef.openTransaction);
     var transaction = $firebaseObject(transactionRef);
     var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/users/" + transaction.sellerId);
-    
-    
+
+
     $scope.map = {
         center: {
             latitude: 48.199023,
@@ -136,7 +146,7 @@ angular.module('starter.controllers', [])
     var transactionRef = new Firebase("https://dazzling-fire-1486.firebaseio.com/openTransactions/" + userRef.openTransaction);
     var transaction = $firebaseObject(transactionRef);
     var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/users/" + transaction.buyerId);
-        $scope.map = {
+    $scope.map = {
         center: {
             latitude: 48.199023,
             longitude: 16.368714
