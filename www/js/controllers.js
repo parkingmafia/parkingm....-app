@@ -116,7 +116,6 @@ angular.module('starter.controllers', [])
 })
 
 .controller('OfferTracCtrl', function ($scope, $firebaseObject, user) {
-    alert('Ihr Parkplatz wurde angeboten!');
     var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/users/" + user.name)
     var userRef = $firebaseObject(ref);
     $scope.marker = userRef.vehicle;
@@ -143,7 +142,6 @@ angular.module('starter.controllers', [])
 })
 
 .controller('BuyTracCtrl', function ($scope, $firebaseObject, user) {
-    alert('Sie haben einen Parkplatz gekauft!');
     var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/users/" + user.name);
     var userRef = $firebaseObject(ref);
     $scope.marker = userRef.vehicle;
