@@ -110,6 +110,23 @@ angular.module('starter.controllers', [])
 
 .controller('OfferTracCtrl', function ($scope, $firebaseObject, user) {
     var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/users/" + user.name);
+    ref.on('value', function (userData) {
+        if(userData.val().currentTransaction !== undefined)
+        {
+            var transactionRef = new Firebase("https://dazzling-fire-1486.firebaseio.com/openTransactions/" + userData.val().currentTransaction);
+            var transaction = $firebaseObject(transactionRef);
+
+            transaction.$loaded(function (t) {
+                var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/users/" + t.seller);
+                var seller = $firebaseObject(ref);
+
+                seller.$loaded(function (seller) {
+                    $scope.myPosition.longitude = seller.vehicle.longitude;
+                    $scope.myPosition.latitude = seller.vehicle.latitude;
+                });
+            });
+        }
+    });
     var userRef = $firebaseObject(ref);
     $scope.marker = userRef.vehicle;
 
