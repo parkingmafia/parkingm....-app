@@ -2,7 +2,7 @@
     <ion-content class="padding" data-tap-disabled="true">
         <ui-gmap-google-map center="map.center" zoom="map.zoom">
             <ui-gmap-marker coords='marker' click="markerClick(marker)" idkey="'licensePlate'"
-                            options="{icon:'http://google-maps-icons.googlecode.com/files/car.png'}">
+                            options="{icon:'http://google-maps-icons.googlecode.com/files/car.png'}" ng-if="marker">
                 <ui-gmap-window show="marker.show" closeClick="marker.show=false" ng-cloak>
                     <div>
                         <div>License Plate: {{m.licensePlate}}</div>
