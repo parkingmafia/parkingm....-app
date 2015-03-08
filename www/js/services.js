@@ -18,6 +18,7 @@ angular.module('starter.services', [])
 
                 directionsService.route(request, function (response, status) {
                     if (status == google.maps.DirectionsStatus.OK) {
+                        console.log(response);
                         var steps = response.routes[0].legs[0].steps,
                             index, pathIndex,
                             positions = [],
@@ -41,7 +42,7 @@ angular.module('starter.services', [])
                             user.vehicle.longitude = positions[positionIndex].longitude;
 
                             positionIndex += 1;
-                        }, 500, positions.length);
+                        }, 200, positions.length);
                     }
                 });
 

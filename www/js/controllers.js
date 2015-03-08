@@ -157,10 +157,10 @@ angular.module('starter.controllers', [])
 
     $scope.map = {
         center: {
-            latitude: 48.199023,
-            longitude: 16.368714
+            latitude: 48.164874, 
+            longitude: 16.368424
         },
-        zoom: 16
+        zoom: 12
     };
     $scope.myPosition = {};
     navigator.geolocation.getCurrentPosition(function (position) {
