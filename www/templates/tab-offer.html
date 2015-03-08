@@ -1,11 +1,11 @@
 <ion-view view-title="ParkIt">
     <ion-content class="padding" data-tap-disabled="true">
         <ui-gmap-google-map center="map.center" zoom="map.zoom">
-            <ui-gmap-marker coords='marker' click="markerClick(marker)" idkey="'licensePlate'"
+            <ui-gmap-marker coords="marker" click="marker.show=true" idkey="'licensePlate'"
                             options="{icon:'http://google-maps-icons.googlecode.com/files/car.png'}" ng-if="marker">
                 <ui-gmap-window show="marker.show" closeClick="marker.show=false" ng-cloak>
                     <div>
-                        <div>License Plate: {{m.licensePlate}}</div>
+                        <div>License Plate: {{marker.licensePlate}}</div>
                         <button class="button button-small button-positive icon-left ion-model-s" ng-click="$parent.offer()">
                             Offer
                         </button>

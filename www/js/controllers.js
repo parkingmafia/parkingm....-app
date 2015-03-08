@@ -51,12 +51,13 @@ angular.module('starter.controllers', [])
                 currentTransaction: pushRef.key()
             });
         });
-        };
+
 
         user.offer = false;
         user.buy = true;
 
         $location.path('/tab/trac/buy');
+    };
 })
 
 .controller('OfferCtrl', function ($scope, $firebaseObject, $location, user) {
@@ -67,10 +68,6 @@ angular.module('starter.controllers', [])
         v.show = false;
         $scope.marker = v;
     });
-
-
-    console.log("https://dazzling-fire-1486.firebaseio.com/users/" + user.name + "/vehicle");
-    console.log($scope.marker);
 
 
     $scope.map = {
@@ -86,26 +83,22 @@ angular.module('starter.controllers', [])
         $scope.map.center.latitude = position.coords.latitude;
     });
 
-    $scope.markerClick = function (model) {
-        if ($scope.selectedMarker) {
-            $scope.selectedMarker.show = false;
-        }
-        model.show = true;
-        $scope.selectedMarker = model;
+    $scope.markerClick = function () {
+        $scope.markerstate.show = true;
     };
 
     $scope.offer = function () {
         var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/freeSpaces");
 
         ref.push({
-            longitude: $scope.selectedMarker.longitude,
-            latitude: $scope.selectedMarker.latitude,
-            price: $scope.selectedMarker.price || 1.5,
+            longitude: $scope.marker.longitude,
+            latitude: $scope.marker.latitude,
+            price: $scope.marker.price || 1.5,
             user: user.name
         });
 
-        if ($scope.selectedMarker) {
-            $scope.selectedMarker.show = false;
+        if ($scope.marker) {
+            $scope.marker.show = false;
         }
 
         user.offer = true;
@@ -141,19 +134,33 @@ angular.module('starter.controllers', [])
     };
 })
 
-.controller('BuyTracCtrl', function ($scope, $firebaseObject, user) {
+.controller('BuyTracCtrl', function ($scope, $firebaseObject, user, car) {
     var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/users/" + user.name);
     var userRef = $firebaseObject(ref);
-    $scope.marker = userRef.vehicle;
-    var transactionRef = new Firebase("https://dazzling-fire-1486.firebaseio.com/openTransactions/" + userRef.openTransaction);
-    var transaction = $firebaseObject(transactionRef);
-    var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/users/" + transaction.buyerId);
+
+
+    userRef.$loaded(function (user) {
+        $scope.marker = user.vehicle;
+
+        var transactionRef = new Firebase("https://dazzling-fire-1486.firebaseio.com/openTransactions/" + userRef.currentTransaction);
+        var transaction = $firebaseObject(transactionRef);
+
+        transaction.$loaded(function (t) {
+            var ref = new Firebase("https://dazzling-fire-1486.firebaseio.com/users/" + t.seller);
+            var seller = $firebaseObject(ref);
+
+            seller.$loaded(function (seller) {
+                car.drive(ref, user, seller.vehicle);
+            });
+        });
+    });
+
     $scope.map = {
         center: {
             latitude: 48.199023,
             longitude: 16.368714
         },
-        zoom: 12
+        zoom: 16
     };
     $scope.myPosition = {};
     navigator.geolocation.getCurrentPosition(function (position) {
